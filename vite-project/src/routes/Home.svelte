@@ -4,6 +4,7 @@
   import { fade, fly } from "svelte/transition";
   import IcnTest from "$icons/icn_test.svelte";
   import ServerScan from "$lib/ServerScan.svelte";
+  import LanguageSelect from "$lib/LanguageSelect.svelte";
 
   let open = false;
   let ref = null;
@@ -194,10 +195,10 @@
       </div>
 
       <div bind:this={ref} style:position="relative">
-        <button class="press" on:click={() => (open = !open)}>
+        <!-- <button class="press" on:click={() => (open = !open)}>
           <img src="1x1/English.svg" class="rounded-full w-3 m-2" alt="" />
-        </button>
-        <Popover
+        </button> -->
+        <!-- <Popover
           bind:open
           align="top"
           on:click:outside={({ detail }) => {
@@ -226,7 +227,9 @@
               <div>Chinese</div>
             </button>
           </div>
-        </Popover>
+        </Popover> -->
+
+        <LanguageSelect />
       </div>
 
       <!-- <OverflowMenu class="" flipped direction="top" size="sm">

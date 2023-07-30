@@ -1,14 +1,14 @@
 export default {
   English: {
-    greeting: "Hello!",
+    greeting: "Welcome!",
     message: "This is the English version.",
   },
   Français: {
-    greeting: "Bonjour!",
+    greeting: "Bienvenue!",
     message: "Ceci est la version française.",
   },
   Español: {
-    greeting: "Hola!",
+    greeting: "Bienvenido!",
     message: "Esta es la versión española.",
   },
 };
