@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.press {
+    @apply transition active:transform active:translate-y-1
+}

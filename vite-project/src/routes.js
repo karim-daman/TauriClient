@@ -8,7 +8,6 @@ const Chunk = ChunkGenerator(ChunkComponent);
 export default {
   "/": Chunk(() => import("./routes/Home.svelte")),
   "/NotFound": Chunk(() => import("./routes/NotFound.svelte")),
-  "/Test": Chunk(() => import("./routes/Test.svelte")),
 
   "*": Chunk(() => import("./routes/NotFound.svelte")),
 };

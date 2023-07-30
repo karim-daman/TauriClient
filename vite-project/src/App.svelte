@@ -31,7 +31,16 @@
   let theme = "white"; // "white" | "g10" | "g80" | "g90" | "g100"
 
   $: document.documentElement.setAttribute("theme", theme);
+
+  import { onMount } from "svelte";
+  import toast, { Toaster } from "svelte-french-toast";
+
+  onMount(() => {
+    toast.success("It works!");
+  });
 </script>
+
+<Toaster />
 
 <Theme bind:theme persist persistKey="__carbon-theme" />
 
