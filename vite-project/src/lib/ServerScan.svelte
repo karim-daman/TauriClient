@@ -75,7 +75,8 @@
     {/if}
   </div>
 
-  <!-- <InlineLoading status="active" description="Submitting..." />
-      <InlineLoading status="inactive" description="Cancelling..." />
-       -->
+  <!-- 
+    <InlineLoading status="active" description="Submitting..." />
+    <InlineLoading status="inactive" description="Cancelling..." />
+    -->
 </div>

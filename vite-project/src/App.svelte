@@ -23,9 +23,17 @@
     Grid,
     Row,
     Column,
+    HeaderUtilities,
+    HeaderGlobalAction,
+    HeaderAction,
+    HeaderPanelLinks,
+    HeaderPanelDivider,
+    HeaderPanelLink,
   } from "carbon-components-svelte";
   // import Fade from "carbon-icons-svelte/lib/Fade.svelte";
   import IcnTest from "$icons/icn_test.svelte";
+
+  let ref = null;
 
   let isSideNavOpen = false;
 
@@ -35,10 +43,16 @@
 
   import { onMount } from "svelte";
   import toast, { Toaster } from "svelte-french-toast";
+  import LanguageSelect from "$lib/LanguageSelect.svelte";
+  import ServerScan from "$lib/ServerScan.svelte";
+  import DateTime from "$lib/DateTime.svelte";
 
   onMount(() => {
     toast.success("It works!");
   });
+
+  let isOpen1 = false;
+  let isOpen2 = false;
 </script>
 
 <Toaster />
@@ -50,8 +64,9 @@
     <svelte:fragment slot="skip-to-content">
       <SkipToContent />
     </svelte:fragment>
+
     <HeaderNav>
-      <HeaderNavItem href="/" text="Link 1" />
+      <HeaderNavItem href="#/" text="Home" />
       <HeaderNavItem href="/" text="Link 2" />
       <HeaderNavItem href="/" text="Link 3" />
       <HeaderNavMenu text="Menu">
@@ -65,7 +80,7 @@
 
   <SideNav bind:isOpen={isSideNavOpen} rail>
     <SideNavItems>
-      <SideNavLink icon={IcnTest} text="Link 1" href="/" isSelected />
+      <SideNavLink icon={IcnTest} text="Home" href="#/" isSelected />
       <SideNavLink icon={IcnTest} text="Link 2" href="/" />
       <SideNavLink icon={IcnTest} text="Link 3" href="/" />
       <SideNavMenu icon={IcnTest} text="Menu">
@@ -74,7 +89,9 @@
         <SideNavMenuItem href="/" text="Link 3" />
       </SideNavMenu>
       <SideNavDivider />
-      <SideNavLink icon={IcnTest} text="Link 4" href="/" />
+      <div class="absolute bottom-0 inset-x-0">
+        <SideNavLink icon={IcnTest} text="Link 4" href="/" />
+      </div>
     </SideNavItems>
   </SideNav>
 
@@ -91,8 +108,29 @@
           </RadioButtonGroup>
 
           <Router {routes} />
+
+          <!-- absolute ml-16 inset-x-10 bottom-1 ml-8 -->
+          <div class=" flex justify-between mt-2 rounded">
+            <div class="rounded border px-2">
+              <ServerScan />
+            </div>
+
+            <div class=" w-60 rounded text-xs border flex justify-between">
+              <DateTime />
+              <div bind:this={ref} style:position="relative">
+                <LanguageSelect />
+              </div>
+            </div>
+          </div>
         </Column>
       </Row>
     </Grid>
   </Content>
 </main>
+
+<style>
+  .border {
+    border-style: solid;
+    border-width: 0.5px;
+  }
+</style>

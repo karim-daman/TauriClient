@@ -5,6 +5,7 @@
   import IcnTest from "$icons/icn_test.svelte";
   import ServerScan from "$lib/ServerScan.svelte";
   import LanguageSelect from "$lib/LanguageSelect.svelte";
+  import DateTime from "$lib/DateTime.svelte";
 
   let open = false;
   let ref = null;
@@ -52,12 +53,42 @@
     });
   }
 
-  function handleSelectAll() {}
+  function handleSelectAll() {
+    if (selected.length == 0) {
+      folders.forEach((element) => {
+        selected.push(element.id);
+      });
+    } else selected = [];
+    selected = [...selected];
+  }
 
-  function handleDeleteSelected() {
+  function handleDelete() {
     if (selectedIndex == undefined) return;
     folders.splice(selectedIndex, 1);
     folders = [...folders];
+  }
+
+  function handleHideSelected() {
+    selected.forEach((idx) => {
+      if (folders[idx - 1].id == idx) {
+        hidden.push(folders[idx - 1]);
+      }
+    });
+
+    // selected.forEach((idx) => {
+    //   folders = folders.filter((folder) => folder.id != idx);
+    // });
+
+    // selected = [];
+
+    hidden = [...hidden];
+    // folders = [...folders];
+  }
+  function handleDeleteSelected() {
+    selected.forEach((idx) => {
+      folders = folders.filter((folder) => folder.id != idx);
+    });
+    selected = [];
   }
 
   function handleHide() {
@@ -79,6 +110,10 @@
     hidden.forEach((element) => {
       handleUnhide(element);
     });
+  }
+
+  function handleDeleteAll() {
+    folders = [];
   }
 
   let time;
@@ -104,6 +139,12 @@
   <button class="border w-20 rounded press" on:click={handleRemove}> Remove </button>
   <button class="border w-20 rounded press" on:click={handleADD}> Add </button>
   <button class="border w-20 rounded press" on:click={handleUnhideAll}>unhide all</button>
+  <button class="border w-20 rounded press" on:click={handleDeleteAll}>Delete all</button>
+
+  {#if selected.length > 0}
+    <button class="border w-28 rounded press" on:click={handleDeleteSelected}>Delete Selection</button>
+    <button class="border w-28 rounded press" on:click={handleHideSelected}>Hide Selection</button>
+  {/if}
 
   <br />
   <div class="flex justify-end mt-2 border rounded p-1">
@@ -150,6 +191,28 @@
     selectedidx: {selectedIndex}
   </p>
 
+  <div class="border w-52 flex flex-wrap">
+    <div class="border mr-2">
+      folders
+      {#each folders as item}
+        <br /> {item.id}
+      {/each}
+    </div>
+
+    <div class="border mr-2">
+      hidden
+      {#each hidden as item}
+        <br /> {item.id}
+      {/each}
+    </div>
+    <div class="border mr-2">
+      selected
+      {#each selected as item}
+        <br /> {item}
+      {/each}
+    </div>
+  </div>
+
   <ContextMenu target={folderRefs} on:open={(e) => UpdateSelectdIndex(e.detail.id)}>
     <ContextMenuOption indented labelText="Copy" shortcutText="Ctrl + C" icon={IcnTest} />
     <ContextMenuOption indented labelText="Hide" shortcutText="Ctrl + H" icon={IcnTest} on:click={handleHide} />
@@ -170,7 +233,7 @@
       <ContextMenuOption id="2" labelText="Auto-sharpen" />
     </ContextMenuGroup>
     <ContextMenuDivider />
-    <ContextMenuOption indented kind="danger" labelText="Delete" on:click={handleDeleteSelected} />
+    <ContextMenuOption indented kind="danger" labelText="Delete" on:click={handleDelete} />
   </ContextMenu>
 
   <!-- 
@@ -179,80 +242,12 @@
   </ContextMenu> 
 -->
 
-  <!-- <Loading small /> -->
-
-  <div class=" absolute inset-x-16 bottom-1 ml-12 flex justify-between mt-2 rounded p-1">
-    <div class="rounded border px-2">
-      <ServerScan />
-    </div>
-    <!-- <div class="bg-red-500 w-8 rounded px-3">2</div>
-    <div class="bg-red-500 w-8 rounded px-3">3</div>
-    <div class="bg-red-500 w-8 rounded px-3">4</div> -->
-    <div class=" w-52 rounded px-3 text-xs border flex">
-      <div class="mr-4 mt-2">
-        {new Date().getMonth() + 1 + "/" + new Date().getDate() + "/" + new Date().getFullYear()} -
-        {time}
-      </div>
-
-      <div bind:this={ref} style:position="relative">
-        <!-- <button class="press" on:click={() => (open = !open)}>
-          <img src="1x1/English.svg" class="rounded-full w-3 m-2" alt="" />
-        </button> -->
-        <!-- <Popover
-          bind:open
-          align="top"
-          on:click:outside={({ detail }) => {
-            console.log("on:click:outside");
-            open = ref.contains(detail.target);
-          }}>
-          <div style="padding: var(--cds-spacing-01)">
-            <button class="w-24 hover:bg-blue-600 hover:text-white py-1 press flex px-2 rounded my-1">
-              <img src="1x1/English.svg" class="rounded-full w-4 mr-4" alt="" />
-              <div>English</div>
-            </button>
-            <button class="w-24 hover:bg-blue-600 hover:text-white py-1 press flex px-2 rounded my-1">
-              <img src="1x1/Français.svg" class="rounded-full w-4 mr-4" alt="" />
-              <div>Français</div>
-            </button>
-            <button class="w-24 hover:bg-blue-600 hover:text-white py-1 press flex px-2 rounded my-1">
-              <img src="1x1/Español.svg" class="rounded-full w-4 mr-4" alt="" />
-              <div>Español</div>
-            </button>
-            <button class="w-24 hover:bg-blue-600 hover:text-white py-1 press flex px-2 rounded my-1">
-              <img src="/public/1x1/sa.svg" class="rounded-full w-4 mr-4" alt="" />
-              <div>Arabic</div>
-            </button>
-            <button class="w-24 hover:bg-blue-600 hover:text-white py-1 press flex px-2 rounded my-1">
-              <img src="1x1/cn.svg" class="rounded-full w-4 mr-4" alt="" />
-              <div>Chinese</div>
-            </button>
-          </div>
-        </Popover> -->
-
-        <LanguageSelect />
-      </div>
-
-      <!-- <OverflowMenu class="" flipped direction="top" size="sm">
-        <div class="press flex p-2">
-          <img src="1x1/English.svg" class="rounded-full w-5 mr-2" alt="" />
-          <div>English</div>
-        </div>
-        <div class="press flex p-2">
-          <img src="1x1/English.svg" class="rounded-full w-5 mr-2" alt="" />
-          <div>English</div>
-        </div>
-        <div class="press flex p-2">
-          <img src="1x1/English.svg" class="rounded-full w-5 mr-2" alt="" />
-          <div>English</div>
-        </div>
-      </OverflowMenu> -->
-    </div>
-  </div>
+  <!-- <Loading /> -->
 </div>
 
 <style>
   .border {
     border-style: solid;
-    border-width: 1px;
+    border-width: 0.5px;
   }
 </style>
