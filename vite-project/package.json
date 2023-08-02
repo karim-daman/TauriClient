@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.4.0",
+    "carbon-icons-svelte": "^12.1.0",
     "svelte-french-toast": "^1.2.0",
     "svelte-spa-chunk": "^2.0.0",
     "svelte-spa-router": "^3.3.0",

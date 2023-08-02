@@ -3,6 +3,7 @@
   import { InlineLoading, Loading } from "carbon-components-svelte";
   import { onMount } from "svelte";
   import toast from "svelte-french-toast";
+  import Wifi from "carbon-icons-svelte/lib/Wifi.svelte";
 
   let serverOnline = false;
   let scanning = false;
@@ -41,11 +42,14 @@
 <div class="flex w-60">
   <button class="press border h-5 mt-1.5 rounded" on:click={handleServerScan}>
     <div class="flex justify-center w-28">
-      {#if scanning}
-        Scanning
-      {:else}
-        Scan
-      {/if}
+      <div class="mr-2">
+        {#if scanning}
+          Scanning
+        {:else}
+          Scan
+        {/if}
+      </div>
+      <Wifi />
     </div>
   </button>
   <p class="mx-5" />

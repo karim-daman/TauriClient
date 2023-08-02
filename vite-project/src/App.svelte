@@ -29,9 +29,13 @@
     HeaderPanelLinks,
     HeaderPanelDivider,
     HeaderPanelLink,
+    Modal,
+    Button,
+    ButtonSet,
   } from "carbon-components-svelte";
   // import Fade from "carbon-icons-svelte/lib/Fade.svelte";
   import IcnTest from "$icons/icn_test.svelte";
+  import IcnSettings from "$icons/icn_settings.svelte";
 
   let ref = null;
 
@@ -53,6 +57,7 @@
 
   let isOpen1 = false;
   let isOpen2 = false;
+  let open = false;
 </script>
 
 <Toaster />
@@ -66,6 +71,7 @@
     </svelte:fragment>
 
     <HeaderNav>
+      <!-- 
       <HeaderNavItem href="#/" text="Home" />
       <HeaderNavItem href="/" text="Link 2" />
       <HeaderNavItem href="/" text="Link 3" />
@@ -74,7 +80,8 @@
         <HeaderNavItem href="/" text="Link 2" />
         <HeaderNavItem href="/" text="Link 3" />
       </HeaderNavMenu>
-      <HeaderNavItem href="/" text="Link 4" />
+      <HeaderNavItem href="/" text="Link 4" /> 
+    -->
     </HeaderNav>
   </Header>
 
@@ -91,37 +98,28 @@
       <SideNavDivider />
       <div class="absolute bottom-0 inset-x-0">
         <SideNavLink icon={IcnTest} text="Link 4" href="/" />
+        <SideNavLink icon={IcnTest} text="Link 4" href="/" />
+        <SideNavLink icon={IcnTest} text="Link 4" href="/" />
+        <SideNavLink icon={IcnSettings} text="Settings" href="#/" on:click={() => (open = true)} />
       </div>
     </SideNavItems>
   </SideNav>
+
+  <Modal bind:open modalHeading="Create database" primaryButtonText="Confirm" secondaryButtonText="Cancel" on:click:button--secondary={() => (open = false)} on:open on:close on:submit>
+    <RadioButtonGroup legendText="Carbon theme" bind:selected={theme}>
+      {#each ["white", "g10", "g80", "g90", "g100"] as value}
+        <RadioButton labelText={value} {value} />
+      {/each}
+    </RadioButtonGroup>
+  </Modal>
 
   <Content>
     <Grid>
       <Row>
         <Column>
-          <h1>{@html $t("greeting")}</h1>
-
-          <RadioButtonGroup legendText="Carbon theme" bind:selected={theme}>
-            {#each ["white", "g10", "g80", "g90", "g100"] as value}
-              <RadioButton labelText={value} {value} />
-            {/each}
-          </RadioButtonGroup>
+          <!-- <h1>{@html $t("greeting")}</h1> -->
 
           <Router {routes} />
-
-          <!-- absolute ml-16 inset-x-10 bottom-1 ml-8 -->
-          <div class=" flex justify-between mt-2 rounded">
-            <div class="rounded border px-2">
-              <ServerScan />
-            </div>
-
-            <div class=" w-60 rounded text-xs border flex justify-between">
-              <DateTime />
-              <div bind:this={ref} style:position="relative">
-                <LanguageSelect />
-              </div>
-            </div>
-          </div>
         </Column>
       </Row>
     </Grid>
